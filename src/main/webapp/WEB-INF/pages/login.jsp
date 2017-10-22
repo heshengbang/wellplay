@@ -1,27 +1,20 @@
-<!DOCTYPE html>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <meta charset="utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>WELLPLAY</title>
-    <!--用百度的静态资源库的cdn安装bootstrap环境-->
-    <!-- Bootstrap 核心 CSS 文件 -->
-    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <!--font-awesome 核心我CSS 文件-->
-    <link href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-    <!-- 在bootstrap.min.js 之前引入 -->
-    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
-    <!-- Bootstrap 核心 JavaScript 文件 -->
-    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-            crossorigin="anonymous"></script>
-    <!--jquery.validate-->
-    <script type="text/javascript" src="jquery.validate.min.js"></script>
-    <%--<script type="text/javascript" src="message.js"></script>--%>
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+    <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js" type="text/javascript"></script>
+    <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
+
     <style type="text/css">
+
         body {
-            background: url(login.jpg) no-repeat;
             background-size: cover;
+            background: #8c8c8c url(./login.jpg) no-repeat;
             font-size: 16px;
         }
 
@@ -55,33 +48,98 @@
             padding-left: 21px;
         }
     </style>
+    <script type="text/javascript">
+        $().ready(function() {
+            $("#login_form").validate({
+                rules: {
+                    j_username: "required",
+                    j_password: {
+                        required: true,
+                        minlength: 4
+                    }
+                },
+                messages: {
+                    j_username: "请输入姓名",
+                    j_password: {
+                        required: "请输入密码",
+                        minlength: "密码不能小于8个字 符"
+                    }
+                }
+            });
+            $("#register_form").validate({
+                rules: {
+                    username: "required",
+                    password: {
+                        required: true,
+                        minlength: 5
+                    },
+                    rpassword: {
+                        equalTo: "#register_password"
+                    },
+                    email: {
+                        required: true,
+                        email: true
+                    }
+                },
+                messages: {
+                    username: "请输入姓名",
+                    password: {
+                        required: "请输入密码",
+                        minlength: "密码不能小于8个字 符"
+                    },
+                    rpassword: {
+                        equalTo: "两次密码不一样"
+                    },
+                    email: {
+                        required: "请输入邮箱",
+                        email: "请输入有效邮箱"
+                    }
+                }
+            });
+
+            document.body.style.backgroundImage="<c:url value="../../resources/login.jpg"/>";
+            document.body.style.backgroundRepeat="no-repeat";
+            document.body.style.backgroundAttachment="cover";
+        });
+        $(function() {
+            $("#register_btn").click(function() {
+                $("#register_form").css("display", "block");
+                $("#login_form").css("display", "none");
+            });
+            $("#back_btn").click(function() {
+                $("#register_form").css("display", "none");
+                $("#login_form").css("display", "block");
+            });
+        });
+    </script>
 </head>
 
 <body>
 <div class="container">
     <div class="form row">
-        <form class="form-horizontal col-sm-offset-3 col-md-offset-3" id="login_form">
-            <h3 class="form-title">Login to your account</h3>
+        <form class="form-horizontal col-sm-offset-3 col-md-offset-3" id="login_form" action="<c:url value="/j_spring_security_check" />" method="post">
+            <h3 class="form-title">WELL PLAY</h3>
             <div class="col-sm-9 col-md-9">
                 <div class="form-group">
                     <i class="fa fa-user fa-lg"></i>
-                    <input class="form-control required" type="text" placeholder="Username" name="username"
+                    <input class="form-control required" id="j_username" type="text" placeholder="Username" name="j_username"
                            autofocus="autofocus" maxlength="20"/>
                 </div>
                 <div class="form-group">
                     <i class="fa fa-lock fa-lg"></i>
-                    <input class="form-control required" type="password" placeholder="Password" name="password"
+                    <input class="form-control required" id="j_password" type="password" placeholder="Password" name="j_password"
                            maxlength="8"/>
                 </div>
                 <div class="form-group">
                     <label class="checkbox">
-                        <input type="checkbox" name="remember" value="1"/> Remember me
+                        <input type="checkbox" id="_spring_security_remember_me"
+                               name="_spring_security_remember_me" /> Remember me
                     </label>
                     <hr/>
                     <a href="javascript:" id="register_btn" class="">Create an account</a>
                 </div>
                 <div class="form-group">
-                    <input type="submit" class="btn btn-success pull-right" value="Login "/>
+                    <input type="submit" name="submit" class="btn btn-success pull-right"/>
                 </div>
             </div>
         </form>
@@ -118,6 +176,5 @@
         </form>
     </div>
 </div>
-<script type="text/javascript" src="login.js"></script>
 </body>
 </html>
