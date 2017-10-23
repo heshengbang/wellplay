@@ -14,7 +14,7 @@
 
         body {
             background-size: cover;
-            background: #8c8c8c url(./login.jpg) no-repeat;
+            background: #8c8c8c url(../../resources/login.jpg) no-repeat;
             font-size: 16px;
         }
 
