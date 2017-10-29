@@ -4,8 +4,10 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
     <title>WELLPLAY</title>
-    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" >
     <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js" type="text/javascript"></script>
     <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js" type="text/javascript"></script>
@@ -59,14 +61,14 @@
                     j_username: "required",
                     j_password: {
                         required: true,
-                        minlength: 4
+                        minlength: 6
                     }
                 },
                 messages: {
                     j_username: "请输入姓名",
                     j_password: {
                         required: "请输入密码",
-                        minlength: "密码不能小于6个字 符"
+                        minlength: "密码不能小于6个字符"
                     }
                 }
             });
@@ -74,14 +76,15 @@
                 rules: {
                     username: "required",
                     password: {
-                        required: true,
+                        required: false,
                         minlength: 6
                     },
                     rpassword: {
-                        equalTo: "#register_password"
+                        required: false,
+                        equalTo: "#r_password"
                     },
                     email: {
-                        required: true,
+                        required: false,
                         email: true
                     }
                 },
@@ -100,8 +103,23 @@
                     }
                 }
             });
+
         });
+
+        function callbackSuccess() {
+            alert("成功回调")
+        }
+
+        function callbackComplete() {
+            alert("完成回调");
+        }
+
+        function callbackError() {
+            alert("错误回调");
+        }
+
         $(function() {
+
             $("#register_btn").click(function() {
                 $("#register_form").css("display", "block");
                 $("#login_form").css("display", "none");
@@ -110,6 +128,49 @@
                 $("#register_form").css("display", "none");
                 $("#login_form").css("display", "block");
             });
+
+            $("#register_user").click(function () {
+                var username = $("#r_username").val();
+                var password = $("#r_password").val();
+                var email = $("#r_email").val();
+
+                console.log(username);
+
+                <%--$.post("<c:url value="/wellpaly/registerUser"/>", {--%>
+                    <%--username: username,--%>
+                    <%--password: password,--%>
+                    <%--email: email--%>
+                <%--}, callbackSuccess, callbackComplete, callbackError);--%>
+
+                var data = {
+                    username: username,
+                    password: password,
+                    email: email
+                };
+
+                var params ="username="+username+"&password="+password+"&email="+email;
+
+
+                $.ajax({
+                    url: "<c:url value="/wellpaly/registerUser"/>",
+                    type: "post",
+                    cache: false,
+                    dataType :"html",
+                    data: params,
+                    complete: function (XHR, TS) {
+                        alert("complete回调")
+                    },
+                    success: function () {
+                        alert("success回调")
+                    },
+                    error: function (status, resonse) {
+                        alert("error回调"+status+":"+resonse);
+                        console.dir(status);
+                        console.dir(resonse);
+                    }
+                });
+            });
+
         });
     </script>
 </head>
@@ -146,17 +207,17 @@
     </div>
 
     <div class="form row">
-        <form class="form-horizontal col-sm-offset-3 col-md-offset-3" id="register_form">
+        <form class="form-horizontal col-sm-offset-3 col-md-offset-3" id="register_form" action="<c:url value="/wellpaly/registerUser"/>" method="post">
             <h3 class="form-title">注册账号</h3>
             <div class="col-sm-9 col-md-9">
                 <div class="form-group">
                     <span class="fa fa-user fa-lg" style="font-style: italic;"></span>
-                    <input class="form-control required" type="text" placeholder="用户名" name="username"
-                           autofocus="autofocus"/>
+                    <input id="r_username" class="form-control required" type="text" placeholder="用户名" name="username"
+                           autofocus="autofocus" />
                 </div>
                 <div class="form-group">
                     <span class="fa fa-lock fa-lg" style="font-style: italic;"></span>
-                    <input class="form-control required" type="password" placeholder="密码" id="register_password"
+                    <input  id="r_password" class="form-control required" type="password" placeholder="密码"
                            name="password"/>
                 </div>
                 <div class="form-group">
@@ -166,10 +227,10 @@
                 </div>
                 <div class="form-group">
                     <span class="fa fa-envelope fa-lg" style="font-style: italic;"></span>
-                    <input class="form-control eamil trim" type="text" placeholder="邮箱" name="email"/>
+                    <input id="r_email" class="form-control eamil trim" type="text" placeholder="邮箱" name="email"/>
                 </div>
                 <div class="form-group">
-                    <input type="submit" class="btn btn-success pull-right" value="注册 "/>
+                    <input type="button" class="btn btn-success pull-right" id="register_user" value="注册 "/>
                     <input type="button" class="btn btn-info pull-left" id="back_btn" value="返回"/>
                 </div>
             </div>

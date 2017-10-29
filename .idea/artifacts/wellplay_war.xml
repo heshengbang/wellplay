@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="wellplay:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="wellplay.war">
+      <element id="artifact" artifact-name="wellplay:war exploded" />
+    </root>
+  </artifact>
+</component>
