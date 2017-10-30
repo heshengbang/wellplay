@@ -2,14 +2,9 @@ package com.wellplay.first.base.entity;/*
  * Copyright ©2011-2016 hsb
  */
 
-/**
- * Created by tongheshang on 2017/10/29.
- * weibo.com/yunshixin
- * https://github.com/tongheshang
- * email: trulyheshengbang@gmail.com
- */
+public class User {
 
-public class UserVo {
+    private int id;
 
     private String username;
 
@@ -19,10 +14,18 @@ public class UserVo {
 
     private String email;
 
-    public UserVo(String username, String password, String email) {
+    public User(String username, String password, String email) {
         this.username = username;
         this.password = password;
         this.email = email;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getUsername() {
@@ -56,4 +59,5 @@ public class UserVo {
     public void setEmail(String email) {
         this.email = email;
     }
+
 }

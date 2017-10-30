@@ -103,20 +103,8 @@
                     }
                 }
             });
-
         });
 
-        function callbackSuccess() {
-            alert("成功回调")
-        }
-
-        function callbackComplete() {
-            alert("完成回调");
-        }
-
-        function callbackError() {
-            alert("错误回调");
-        }
 
         $(function() {
 
@@ -150,23 +138,33 @@
 
                 var params ="username="+username+"&password="+password+"&email="+email;
 
-
                 $.ajax({
-                    url: "<c:url value="/wellpaly/registerUser"/>",
-                    type: "post",
+                    url: "<c:url value="/wellplay/registerUser" />",
+                    type: "POST",
                     cache: false,
-                    dataType :"html",
-                    data: params,
-                    complete: function (XHR, TS) {
-                        alert("complete回调")
+                    dataType :"text",
+                    data: data,
+                    complete: function (status, response) {
+                        console.log("完成");
+                        console.dir(status.responseText);
+                        console.dir(response);
                     },
-                    success: function () {
-                        alert("success回调")
-                    },
-                    error: function (status, resonse) {
-                        alert("error回调"+status+":"+resonse);
+                    success: function (status, response) {
+                        console.log("成功");
                         console.dir(status);
-                        console.dir(resonse);
+                        console.dir(response);
+                        if (status === "register success") {
+                            //弹出模态框
+                            $('#tipBox').on('hide.bs.modal', function() {
+                                console.log('嘿，关闭了...');}
+                                );
+
+                        }
+                    },
+                    error: function (status, response) {
+                        console.log("错误");
+                        console.dir(status);
+                        console.dir(response);
                     }
                 });
             });
@@ -207,7 +205,7 @@
     </div>
 
     <div class="form row">
-        <form class="form-horizontal col-sm-offset-3 col-md-offset-3" id="register_form" action="<c:url value="/wellpaly/registerUser"/>" method="post">
+        <form class="form-horizontal col-sm-offset-3 col-md-offset-3" id="register_form" action="<c:url value="/wellpaly/registerUser" />" method="post">
             <h3 class="form-title">注册账号</h3>
             <div class="col-sm-9 col-md-9">
                 <div class="form-group">
@@ -235,6 +233,18 @@
                 </div>
             </div>
         </form>
+    </div>
+</div>
+<!-- Small modal -->
+<%--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myID">Small modal</button>--%>
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="tipBox">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body">注册成功</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
     </div>
 </div>
 </body>

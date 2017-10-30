@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50625
 File Encoding         : 65001
 
-Date: 2017-10-23 17:39:24
+Date: 2017-10-30 18:04:17
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -40,16 +40,16 @@ CREATE TABLE `user` (
   `id` int(11) unsigned zerofill NOT NULL AUTO_INCREMENT,
   `username` varchar(45) NOT NULL,
   `password` varchar(45) NOT NULL,
-  `enable` int(1) NOT NULL,
+  `enable` varchar(1) NOT NULL,
   `email` varchar(128) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('00000000001', 'admin', 'admin', '1', '');
-INSERT INTO `user` VALUES ('00000000002', 'user', 'user', '1', '');
+INSERT INTO `user` VALUES ('00000000001', 'admin', '123456', '1', '');
+INSERT INTO `user` VALUES ('00000000002', 'user', '123456', '1', '');
 
 -- ----------------------------
 -- Table structure for `user_role`

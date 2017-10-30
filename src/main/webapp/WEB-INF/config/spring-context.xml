@@ -14,4 +14,9 @@
         <property name="password" value=""/>
     </bean>
 
+    <!--jdbcTemplate和数据库关联-->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name = "dataSource" ref="dataSource"/>
+    </bean>
+
 </beans>
