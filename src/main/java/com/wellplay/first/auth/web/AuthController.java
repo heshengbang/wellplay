@@ -22,8 +22,12 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/wellplay")
 public class AuthController {
 
+    private final transient AuthService authService;
+
     @Autowired
-    private transient AuthService authService;
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+    }
 
 
     @RequestMapping(value = "registerUser", method = RequestMethod.POST)
@@ -33,7 +37,7 @@ public class AuthController {
         String password = request.getParameter("password");
         String email = request.getParameter("email");
         User user = new User(username, password, email);
-
+        user.setEnable('1');
         try {
             authService.insertUser(user);
         } catch (Exception e) {

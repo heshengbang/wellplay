@@ -11,7 +11,7 @@
 	</appender>
 	
 	<!-- Application Loggers -->
-	<logger name="com.test.security">
+	<logger name="com.wellplay.first">
 		<level value="info" />
 	</logger>
 	
@@ -29,6 +29,10 @@
 	</logger>
 
 	<logger name="org.springframework.web">
+		<level value="info" />
+	</logger>
+
+	<logger name="org.hibernate">
 		<level value="info" />
 	</logger>
 

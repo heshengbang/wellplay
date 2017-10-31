@@ -14,11 +14,15 @@ import javax.annotation.Resource;
 @Repository
 public class AuthDao {
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     @Resource
     private SessionFactory sessionFactory;
+
+    @Autowired
+    public AuthDao(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     public SessionFactory getSessionFactory() {
         return sessionFactory;
@@ -29,7 +33,12 @@ public class AuthDao {
     }
 
     private Session getSession() {
-        return sessionFactory.getCurrentSession();
+        /*
+         * the difference between getCurrentSession() and openSession()
+         * simple said, getCurrentSession is not thread safe and openSession is threadSafe it can make new Session for every request
+         * http://www.cnblogs.com/pengyusong/articles/6245086.html
+         */
+        return sessionFactory.openSession();
     }
 
     public void insertUser(final User user) {

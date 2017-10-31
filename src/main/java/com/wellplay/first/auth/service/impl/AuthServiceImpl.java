@@ -12,8 +12,12 @@ import org.springframework.util.StringUtils;
 @Service
 public class AuthServiceImpl implements AuthService{
 
+    private final transient AuthDao authDao;
+
     @Autowired
-    private transient AuthDao authDao;
+    public AuthServiceImpl(AuthDao authDao) {
+        this.authDao = authDao;
+    }
 
     @Override
     public void insertUser(User user) throws Exception {
