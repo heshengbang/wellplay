@@ -30,6 +30,12 @@ public class AuthDao {
                 preparedStatement.setString(4, user.getEmail());
             }
         });
+
+
+    }
+
+    public void addRoleToUser(String role_user, User user) {
+
     }
 }
 

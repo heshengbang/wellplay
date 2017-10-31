@@ -7,6 +7,7 @@ import com.wellplay.first.auth.service.AuthService;
 import com.wellplay.first.base.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 public class AuthServiceImpl implements AuthService{
@@ -15,12 +16,35 @@ public class AuthServiceImpl implements AuthService{
     private transient AuthDao authDao;
 
     @Override
-    public void insertUser(User user) {
-        trim(user);
-        authDao.insertUser(user);
+    public void insertUser(User user) throws Exception {
+        String result;
+        result = trim(user);
+        if ("SUCCESS".equals(result)) {
+            authDao.insertUser(user);
+        } else {
+            throw new Exception("注册失败，" + result);
+        }
     }
 
-    private void trim(User user) {
+    @Override
+    public void addRoleToUser(String role_user, User user) {
+        authDao.addRoleToUser(role_user, user);
+    }
 
+    private String trim(User user) {
+        if (user == null) {
+            return "注册信息为空";
+        } else {
+            if (StringUtils.isEmpty(user.getUsername())) {
+                return "用户名不能为空或空字符";
+            } else if (StringUtils.isEmpty(user.getPassword())){
+                return "密码不能为空或空字符";
+            } else if (user.getPassword().length() < 6) {
+                return "密码位数应大于等于六位";
+            } else if (StringUtils.isEmpty(user.getEmail())) {
+                return "邮箱不能为空";
+            }
+        }
+        return "SUCCESS";
     }
 }

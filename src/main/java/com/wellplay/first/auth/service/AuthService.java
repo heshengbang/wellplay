@@ -6,5 +6,7 @@ import com.wellplay.first.base.entity.User;
 
 public interface AuthService {
 
-    void insertUser(User user);
+    void insertUser(User user) throws Exception;
+
+    void addRoleToUser(String role_user, User user);
 }

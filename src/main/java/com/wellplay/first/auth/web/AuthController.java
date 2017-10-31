@@ -37,14 +37,12 @@ public class AuthController {
         try {
             authService.insertUser(user);
         } catch (Exception e) {
-            e.printStackTrace();
-            return "register fail";
+            return "register fail" + e.getMessage();
         }
 
-        if (username.equals("hehu")) {
-            return "register success";
-        } else {
-            return "register fail";
-        }
+        authService.addRoleToUser("ROLE_USER", user);
+
+        return "register success";
     }
+
 }
