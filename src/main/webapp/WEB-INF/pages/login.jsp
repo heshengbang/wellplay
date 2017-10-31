@@ -76,15 +76,15 @@
                 rules: {
                     username: "required",
                     password: {
-                        required: false,
+                        required: true,
                         minlength: 6
                     },
                     rpassword: {
-                        required: false,
+                        required: true,
                         equalTo: "#r_password"
                     },
                     email: {
-                        required: false,
+                        required: true,
                         email: true
                     }
                 },
@@ -144,27 +144,27 @@
                     cache: false,
                     dataType :"text",
                     data: data,
-                    complete: function (status, response) {
-                        console.log("完成");
-                        console.dir(status.responseText);
-                        console.dir(response);
-                    },
-                    success: function (status, response) {
-                        console.log("成功");
-                        console.dir(status);
-                        console.dir(response);
-                        if (status === "register success") {
+                    complete: function (response, status) {
+                        //完成回调
+                        if (response.responseText !== "register success") {
+                            $(".modal-body").html("注册失败，请确认注册信息是否正确");
                             //弹出模态框
-                            $('#tipBox').on('hide.bs.modal', function() {
-                                console.log('嘿，关闭了...');}
-                                );
-
+                            $('#tipBox').modal();
+                        } else {
+                            $(".modal-body").html("注册成功，请重新登录");
+                            //弹出模态框
+                            $('#tipBox').modal();
+                            //模态框关闭回调函数
+                            $('#tipBox').on('hidden.bs.modal', function() {
+                                location.reload();
+                            })
                         }
                     },
+                    success: function (status, response) {
+                        //成功回调
+                    },
                     error: function (status, response) {
-                        console.log("错误");
-                        console.dir(status);
-                        console.dir(response);
+                        //错误回调
                     }
                 });
             });
@@ -240,9 +240,9 @@
 <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="tipBox">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
-            <div class="modal-body">注册成功</div>
+            <div class="modal-body"></div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="close_modal">关闭</button>
             </div>
         </div>
     </div>

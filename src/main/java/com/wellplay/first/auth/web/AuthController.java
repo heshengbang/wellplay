@@ -38,8 +38,13 @@ public class AuthController {
             authService.insertUser(user);
         } catch (Exception e) {
             e.printStackTrace();
-            return "fail";
+            return "register fail";
         }
-        return "register success";
+
+        if (username.equals("hehu")) {
+            return "register success";
+        } else {
+            return "register fail";
+        }
     }
 }
