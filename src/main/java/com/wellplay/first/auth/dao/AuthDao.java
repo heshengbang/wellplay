@@ -54,8 +54,10 @@ public class AuthDao {
 //                preparedStatement.setString(4, user.getEmail());
 //            }
 //        });
-        this.getSession().save(user);
-
+        Session session = this.getSession();
+        session.save(user);
+        session.flush();
+        session.close();
     }
 
     public void addRoleToUser(String role_user, User user) {

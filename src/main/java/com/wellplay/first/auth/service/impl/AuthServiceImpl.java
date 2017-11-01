@@ -7,9 +7,11 @@ import com.wellplay.first.auth.service.AuthService;
 import com.wellplay.first.base.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 @Service
+@Transactional(readOnly = true)
 public class AuthServiceImpl implements AuthService{
 
     private final transient AuthDao authDao;
@@ -20,6 +22,7 @@ public class AuthServiceImpl implements AuthService{
     }
 
     @Override
+    @Transactional(readOnly = false, rollbackFor=Exception.class )
     public void insertUser(User user) throws Exception {
         String result;
         result = trim(user);

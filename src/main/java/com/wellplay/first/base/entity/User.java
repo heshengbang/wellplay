@@ -2,7 +2,10 @@ package com.wellplay.first.base.entity;/*
  * Copyright ©2011-2016 hsb
  */
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "user")
@@ -23,13 +26,14 @@ public class User {
     }
 
     public User(String username, String password, String email) {
+        super();
         this.username = username;
         this.password = password;
         this.email = email;
     }
 
     @Id
-    @Column(name = "id", nullable = false, unique = true)
+    @Column(name = "id", nullable = false, unique = true, length = 1)
     public int getId() {
         return id;
     }
@@ -74,4 +78,14 @@ public class User {
         this.email = email;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", enable=" + enable +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }

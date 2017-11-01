@@ -26,7 +26,7 @@
             <props>
                 <prop key="hibernate.show_sql">true</prop>
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
-                <prop key="hibernate.format_sql">false</prop>
+                <prop key="hibernate.format_sql">true</prop>
                 <!--
                             它包含4个属性:
                 * create : 会根据你的model类来生成表,但是每次运行都会删除上一次的表,重新生成表,哪怕2次没有任何改变
