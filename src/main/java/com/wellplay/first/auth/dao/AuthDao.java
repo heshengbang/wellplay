@@ -70,7 +70,7 @@ public class AuthDao {
         Session session = this.getSession();
         try {
             Role role = (Role) session.createQuery("from Role as r where r.role_name = ?").setParameter(0, role_user).uniqueResult();
-            User existUser = (User) session.createQuery("from User as r where r.username = ? and r.email = ?").setParameter(0, user.getUsername()).setParameter(1, user.getEmail());
+            User existUser = (User) session.createQuery("from User as r where r.username = ? and r.email = ?").setParameter(0, user.getUsername()).setParameter(1, user.getEmail()).uniqueResult();
             UserRole userRole = new UserRole();
             userRole.setRole_id(role.getId());
             userRole.setRole_name(role.getRole_name());
