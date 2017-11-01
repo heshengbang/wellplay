@@ -2,7 +2,9 @@ package com.wellplay.first.auth.dao;/*
  * Copyright ©2011-2016 hsb
  */
 
+import com.wellplay.first.base.entity.Role;
 import com.wellplay.first.base.entity.User;
+import com.wellplay.first.base.entity.UserRole;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +43,7 @@ public class AuthDao {
         return sessionFactory.openSession();
     }
 
-    public void insertUser(final User user) {
+    public void insertUser(final User user) throws Exception {
 
 //        String sql = "insert into user(username, password, enable, email) values(?, ?, ?, ?)";
 //
@@ -55,13 +57,35 @@ public class AuthDao {
 //            }
 //        });
         Session session = this.getSession();
-        session.save(user);
-        session.flush();
-        session.close();
+        if (session != null) {
+            session.save(user);
+            session.flush();
+            session.close();
+        } else {
+            throw new Exception("注册失败");
+        }
     }
 
-    public void addRoleToUser(String role_user, User user) {
-
+    public void addRoleToUser(String role_user, User user) throws Exception {
+        Session session = this.getSession();
+        try {
+            Role role = (Role) session.createQuery("from Role as r where r.role_name = ?").setParameter(0, role_user).uniqueResult();
+            User existUser = (User) session.createQuery("from User as r where r.username = ? and r.email = ?").setParameter(0, user.getUsername()).setParameter(1, user.getEmail());
+            UserRole userRole = new UserRole();
+            userRole.setRole_id(role.getId());
+            userRole.setRole_name(role.getRole_name());
+            userRole.setUser_id(existUser.getId());
+            userRole.setUser_name(existUser.getUsername());
+            session.save(userRole);
+        } catch (Exception e) {
+            //如果添加角色失败就删除用户，注册失败
+            User existUser = (User) session.createQuery("from User as r where r.username = ? and r.email = ?").setParameter(0, user.getUsername()).setParameter(1, user.getEmail()).uniqueResult();
+            session.delete(existUser);
+            throw e;
+        } finally {
+            session.flush();
+            session.close();
+        }
     }
 }
 

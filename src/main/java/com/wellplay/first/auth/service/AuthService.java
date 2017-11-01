@@ -8,5 +8,5 @@ public interface AuthService {
 
     void insertUser(User user) throws Exception;
 
-    void addRoleToUser(String role_user, User user);
+    void addRoleToUser(String role_user, User user) throws Exception;
 }

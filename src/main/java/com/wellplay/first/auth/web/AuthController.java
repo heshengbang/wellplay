@@ -40,11 +40,11 @@ public class AuthController {
         user.setEnable('1');
         try {
             authService.insertUser(user);
+            authService.addRoleToUser("ROLE_USER", user);
         } catch (Exception e) {
             return "register fail" + e.getMessage();
         }
 
-        authService.addRoleToUser("ROLE_USER", user);
 
         return "register success";
     }

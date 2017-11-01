@@ -33,7 +33,7 @@ public class User {
     }
 
     @Id
-    @Column(name = "id", nullable = false, unique = true, length = 1)
+    @Column(name = "id", nullable = false, unique = true)
     public int getId() {
         return id;
     }

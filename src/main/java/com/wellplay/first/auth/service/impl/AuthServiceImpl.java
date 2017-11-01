@@ -34,7 +34,7 @@ public class AuthServiceImpl implements AuthService{
     }
 
     @Override
-    public void addRoleToUser(String role_user, User user) {
+    public void addRoleToUser(String role_user, User user) throws Exception {
         authDao.addRoleToUser(role_user, user);
     }
 
