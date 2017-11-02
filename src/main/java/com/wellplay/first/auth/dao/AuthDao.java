@@ -58,6 +58,7 @@ public class AuthDao {
 //        });
         Session session = this.getSession();
         if (session != null) {
+            //hibernate must use session to operate data in databank, before operate you should begin transaction and commit and then ,close session.
             session.beginTransaction();
             session.save(user);
             session.getTransaction().commit();
