@@ -58,8 +58,9 @@ public class AuthDao {
 //        });
         Session session = this.getSession();
         if (session != null) {
+            session.beginTransaction();
             session.save(user);
-            session.flush();
+            session.getTransaction().commit();
             session.close();
         } else {
             throw new Exception("注册失败");
@@ -68,6 +69,7 @@ public class AuthDao {
 
     public void addRoleToUser(String role_user, User user) throws Exception {
         Session session = this.getSession();
+        session.beginTransaction();
         try {
             Role role = (Role) session.createQuery("from Role as r where r.role_name = ?").setParameter(0, role_user).uniqueResult();
             User existUser = (User) session.createQuery("from User as r where r.username = ? and r.email = ?").setParameter(0, user.getUsername()).setParameter(1, user.getEmail()).uniqueResult();
@@ -83,7 +85,7 @@ public class AuthDao {
             session.delete(existUser);
             throw e;
         } finally {
-            session.flush();
+            session.getTransaction().commit();
             session.close();
         }
     }
